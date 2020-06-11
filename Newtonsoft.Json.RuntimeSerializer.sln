@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Newtonsoft.Json.RuntimeSerializer", "src\Newtonsoft.Json.RuntimeSerializer\Newtonsoft.Json.RuntimeSerializer.csproj", "{0953D053-5153-4A5A-8215-A7C41FBF88B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E827B0A9-4314-42EE-AFBF-E1B95D2A8FB3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2E16F5E6-F2AB-44B2-8CE9-848CD0E4C123}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newtonsoft.Json.RuntimeSerializer.Test", "test\Newtonsoft.Json.RuntimeSerializer.Test\Newtonsoft.Json.RuntimeSerializer.Test.csproj", "{A7502799-E374-49F2-87C1-318525AD30F9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0953D053-5153-4A5A-8215-A7C41FBF88B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0953D053-5153-4A5A-8215-A7C41FBF88B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0953D053-5153-4A5A-8215-A7C41FBF88B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0953D053-5153-4A5A-8215-A7C41FBF88B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7502799-E374-49F2-87C1-318525AD30F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7502799-E374-49F2-87C1-318525AD30F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7502799-E374-49F2-87C1-318525AD30F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7502799-E374-49F2-87C1-318525AD30F9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0953D053-5153-4A5A-8215-A7C41FBF88B3} = {E827B0A9-4314-42EE-AFBF-E1B95D2A8FB3}
+		{A7502799-E374-49F2-87C1-318525AD30F9} = {2E16F5E6-F2AB-44B2-8CE9-848CD0E4C123}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C4B7641-156C-472D-A328-E7EE2D07E1DD}
+	EndGlobalSection
+EndGlobal
