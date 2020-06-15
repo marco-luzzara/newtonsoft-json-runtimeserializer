@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Newtonsoft.Json.RuntimeSerializer.Configurations.Exceptions
 {
-    public class NotExistingPropertyException : Exception
+    public class PropertyNotFoundException : Exception
     {
-        public NotExistingPropertyException(string propName) : base($"{propName} is not a property")
+        public PropertyNotFoundException(string propName) : base($"{propName} is not a property")
         {
         }
     }
@@ -18,9 +18,9 @@ namespace Newtonsoft.Json.RuntimeSerializer.Configurations.Exceptions
         }
     }
 
-    public class NotExistingFieldException : Exception
+    public class FieldNotFoundException : Exception
     {
-        public NotExistingFieldException(string fieldName) : base($"{fieldName} is not a property")
+        public FieldNotFoundException(string fieldName) : base($"{fieldName} is not a property")
         {
         }
     }

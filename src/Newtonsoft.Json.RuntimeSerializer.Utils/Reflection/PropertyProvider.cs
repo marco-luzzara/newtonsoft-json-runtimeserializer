@@ -7,7 +7,7 @@ namespace Newtonsoft.Json.RuntimeSerializer.Utils
     public class PropertyProvider
     {
         // https://stackoverflow.com/questions/671968/retrieving-property-name-from-lambda-expression
-        public PropertyInfo GetPropertyInfo<TSource, TProperty>(Expression<Func<TSource, TProperty>> propertyLambda)
+        public static PropertyInfo GetPropertyInfoFromExpr<TSource, TProperty>(Expression<Func<TSource, TProperty>> propertyLambda)
         {
             Type type = typeof(TSource);
 
@@ -18,6 +18,18 @@ namespace Newtonsoft.Json.RuntimeSerializer.Utils
                 throw new ArgumentException($"{propertyLambda} must refer to a property");
 
             return propInfo;
+        }
+
+        public static PropertyInfo GetPropertyInfoFromName<T>(string propName)
+        {
+            PropertyInfo propInfo = typeof(T).GetProperty(propName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            return propInfo;
+        }
+
+        public static FieldInfo GetFieldInfoFromName<T>(string fieldName)
+        {
+            FieldInfo fieldInfo = typeof(T).GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            return fieldInfo;
         }
     }
 }

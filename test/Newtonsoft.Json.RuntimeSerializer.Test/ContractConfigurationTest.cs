@@ -12,7 +12,7 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
     public class ContractConfigurationTest
     {
         [TestMethod]
-        [ExpectedException(typeof(NotExistingPropertyException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void PropertyFromExpr_AccessMethod_Throw()
         {
             ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
@@ -33,7 +33,7 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotExistingPropertyException))]
+        [ExpectedException(typeof(PropertyNotFoundException))]
         public void PropertyFromString_AccessMethod_Throw()
         {
             ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
@@ -66,7 +66,7 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotExistingFieldException))]
+        [ExpectedException(typeof(FieldNotFoundException))]
         public void FieldFromString_AccessMethod_Throw()
         {
             ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();

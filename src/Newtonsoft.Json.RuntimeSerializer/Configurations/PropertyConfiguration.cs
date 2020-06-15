@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.RuntimeSerializer.Configurations.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -32,6 +33,9 @@ namespace Newtonsoft.Json.RuntimeSerializer.Configurations
 
         public PropertyConfiguration HasName(string propName)
         {
+            if (string.IsNullOrEmpty(propName))
+                throw new InvalidNameForPropertyException();
+
             this.name = propName;
             return this;
         }

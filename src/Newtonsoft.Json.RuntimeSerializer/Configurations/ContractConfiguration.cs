@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json.RuntimeSerializer.Configurations;
+using Newtonsoft.Json.RuntimeSerializer.Configurations.Exceptions;
+using Newtonsoft.Json.RuntimeSerializer.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,19 +18,49 @@ namespace Newtonsoft.Json.RuntimeSerializer
 
         public IDictionary<string, PropertyConfiguration> PropertiesMapping => propertiesMapping.ToDictionary(x => x.Key, x => x.Value);
 
-        public PropertyConfiguration Property(Expression<Func<T, object>> propExpr)
+        public PropertyConfiguration Property<U>(Expression<Func<T, U>> propExpr)
         {
-            throw new Exception();
+            var propInfo = PropertyProvider.GetPropertyInfoFromExpr(propExpr);
+
+            return AddOrGetPropertyConfiguration(propInfo.Name);
         }
 
         public PropertyConfiguration Property(string propName)
         {
-            throw new Exception();
+            if (string.IsNullOrEmpty(propName))
+                throw new InvalidPropertyException();
+
+            var propInfo = PropertyProvider.GetPropertyInfoFromName<T>(propName);
+
+            if (propInfo is null)
+                throw new PropertyNotFoundException(propName);
+
+            return AddOrGetPropertyConfiguration(propInfo.Name);
         }
 
         public PropertyConfiguration Field(string fieldName)
         {
-            throw new Exception();
+            if (string.IsNullOrEmpty(fieldName))
+                throw new InvalidFieldException();
+
+            var fieldInfo = PropertyProvider.GetFieldInfoFromName<T>(fieldName);
+
+            if (fieldInfo is null)
+                throw new FieldNotFoundException(fieldName);
+
+            return AddOrGetPropertyConfiguration(fieldInfo.Name);
+        }
+
+        protected PropertyConfiguration AddOrGetPropertyConfiguration(string propName)
+        {
+            PropertyConfiguration pc;
+            if (this.propertiesMapping.TryGetValue(propName, out pc))
+                return pc;
+
+            pc = new PropertyConfiguration();
+            this.propertiesMapping.Add(propName, pc);
+
+            return pc;
         }
     }
 }
