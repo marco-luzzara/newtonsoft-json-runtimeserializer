@@ -16,7 +16,7 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
         public void PropertyFromExpr_AccessMethod_Throw()
         {
             ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
-            cc.Property(ta => ta.TestMe());
+            cc.Property(ta => ta.TestMethod());
         }
 
         [TestMethod]
@@ -26,7 +26,7 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
             ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
             cc.Property(ta => ta.IdA).HasName(mappedName);
 
-            var mapping = cc.GetGlobalPropertyMapping.First();
+            var mapping = cc.PropertiesMapping.First();
 
             Assert.AreEqual("IdA", mapping.Key);
             Assert.AreEqual(mappedName, mapping.Value.Name);
@@ -41,6 +41,16 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
         }
 
         [DataTestMethod]
+        [DataRow("")]
+        [DataRow(null)]
+        [ExpectedException(typeof(InvalidPropertyException))]
+        public void PropertyFromString_InvalidProperty_Throw(string propName)
+        {
+            ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
+            cc.Property(propName);
+        }
+
+        [DataTestMethod]
         [DataRow("PrivateProp")]
         [DataRow("IdA")]
         public void PropertyFromString_AccessProperty(string propName)
@@ -49,7 +59,7 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
             ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
             cc.Property(propName).HasName(mappedName);
 
-            var mapping = cc.GetGlobalPropertyMapping.First();
+            var mapping = cc.PropertiesMapping.First();
 
             Assert.AreEqual(propName, mapping.Key);
             Assert.AreEqual(mappedName, mapping.Value.Name);
@@ -63,6 +73,16 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
             cc.Field("TestMe");
         }
 
+        [DataTestMethod]
+        [DataRow("")]
+        [DataRow(null)]
+        [ExpectedException(typeof(InvalidFieldException))]
+        public void FieldFromString_ArgNull_Throw(string fieldName)
+        {
+            ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
+            cc.Field(fieldName);
+        }
+
         [TestMethod]
         public void FieldFromString_AccessPrivateField()
         {
@@ -71,7 +91,7 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
             ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
             cc.Field(fieldName).HasName(mappedName);
 
-            var mapping = cc.GetGlobalPropertyMapping.First();
+            var mapping = cc.PropertiesMapping.First();
 
             Assert.AreEqual(fieldName, mapping.Key);
             Assert.AreEqual(mappedName, mapping.Value.Name);

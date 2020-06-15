@@ -8,10 +8,10 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test.Model
     [DataContract]
     public class TestB
     {
-        [DataMember(Name = "id")]
-        public int IdB { get; set; }
+        [DataMember(Name = "idB")]
+        public int IdB { get; set; } = 0;
 
-        [DataMember(Name = "testA")]
-        public List<TestA> TestAReferences { get; set; }
+        [DataMember(Name = "testAs")]
+        public List<TestA> TestAReferences { get; set; } = new List<TestA>();
     }
 }

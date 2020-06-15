@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using Newtonsoft.Json.RuntimeSerializer.Configurations;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,12 @@ namespace Newtonsoft.Json.RuntimeSerializer
     public class RuntimeContractResolver : DefaultContractResolver
     {
         protected int callstack = 0;
+        protected List<IContractConfiguration> contractConfigurations;
+
+        public RuntimeContractResolver(params IContractConfiguration[] contractConfigurations)
+        {
+            this.contractConfigurations = contractConfigurations.ToList();
+        }
 
         protected void WriteLine(string message)
         {

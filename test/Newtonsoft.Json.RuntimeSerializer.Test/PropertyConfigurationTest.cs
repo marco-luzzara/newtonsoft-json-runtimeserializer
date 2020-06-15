@@ -34,7 +34,6 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidNameForPropertyException))]
         public void HasName_NameAccepted()
         {
             string mappedName = "test";

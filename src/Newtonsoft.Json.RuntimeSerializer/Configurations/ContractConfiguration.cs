@@ -8,15 +8,13 @@ using System.Text;
 
 namespace Newtonsoft.Json.RuntimeSerializer
 {
-    public class ContractConfiguration<T>
+    public class ContractConfiguration<T> : IContractConfiguration
     {
-        protected Dictionary<string, PropertyConfiguration> globalPropertyMapping = new Dictionary<string, PropertyConfiguration>();
+        protected Dictionary<string, PropertyConfiguration> propertiesMapping = new Dictionary<string, PropertyConfiguration>();
 
-        public ContractConfiguration()
-        {
-        }
+        public Type ModelType => typeof(T);
 
-        public IDictionary<string, PropertyConfiguration> GetGlobalPropertyMapping => globalPropertyMapping.ToDictionary(x => x.Key, x => x.Value);
+        public IDictionary<string, PropertyConfiguration> PropertiesMapping => propertiesMapping.ToDictionary(x => x.Key, x => x.Value);
 
         public PropertyConfiguration Property(Expression<Func<T, object>> propExpr)
         {

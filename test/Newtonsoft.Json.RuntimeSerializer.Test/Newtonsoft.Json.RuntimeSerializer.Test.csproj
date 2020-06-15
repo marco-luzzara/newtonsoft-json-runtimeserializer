@@ -17,4 +17,8 @@
     <ProjectReference Include="..\..\src\Newtonsoft.Json.RuntimeSerializer\Newtonsoft.Json.RuntimeSerializer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
 </Project>
