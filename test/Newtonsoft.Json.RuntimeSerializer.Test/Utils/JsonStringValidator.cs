@@ -19,9 +19,11 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test.Utils
             return jToken[propName] != null;
         }
 
-        public bool HasPropertyWithValue(string propName, object propValue)
+        public bool HasPropertyWithValue<T>(string propName, T propValue)
+            where T : IComparable
         {
-            return HasProperty(propName) && jToken[propName].Value<object>() == propValue;
+            return HasProperty(propName) && 
+                jToken[propName].Value<T>().CompareTo(propValue) == 0;
         }
     }
 }

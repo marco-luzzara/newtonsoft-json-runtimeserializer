@@ -16,7 +16,7 @@ namespace Newtonsoft.Json.RuntimeSerializer.Configurations
             }
         }
 
-        protected bool? isIgnored;
+        protected bool? isIgnored = null;
         public bool? IsIgnored 
         {
             get

@@ -76,10 +76,14 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
             ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
             cc.Property(ta => ta.IdA).Ignore();
 
+            var staticJson = JsonConvert.SerializeObject(ta);
             var json = JsonConvert.SerializeObject(ta, GetSettings(cc));
 
+            JsonStringValidator jsAssertStatic = new JsonStringValidator(staticJson);
+            Assert.IsTrue(jsAssertStatic.HasProperty("idA"));
+
             JsonStringValidator jsAssert = new JsonStringValidator(json);
-            Assert.IsFalse(jsAssert.HasProperty("id"));
+            Assert.IsFalse(jsAssert.HasProperty("idA"));
         }
 
         [TestMethod]
@@ -103,7 +107,7 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
             TestA ta = new TestA();
             ta.SetUnnamedPrivateProp(1);
             ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
-            cc.Property("UnnamedPrivateProperty").HasName("unnamed_private_property");
+            cc.Property("UnnamedPrivateProp").HasName("unnamed_private_property");
 
             var json = JsonConvert.SerializeObject(ta, GetSettings(cc));
 
@@ -133,7 +137,11 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
             ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
             cc.Property("PrivateProp").Ignore();
 
+            var staticJson = JsonConvert.SerializeObject(ta);
             var json = JsonConvert.SerializeObject(ta, GetSettings(cc));
+
+            JsonStringValidator jsAssertStatic = new JsonStringValidator(staticJson);
+            Assert.IsTrue(jsAssertStatic.HasProperty("privateProperty"));
 
             JsonStringValidator jsAssert = new JsonStringValidator(json);
             Assert.IsFalse(jsAssert.HasProperty("privateProperty"));
@@ -191,7 +199,11 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
             ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
             cc.Field("privateField").Ignore();
 
+            var staticJson = JsonConvert.SerializeObject(ta);
             var json = JsonConvert.SerializeObject(ta, GetSettings(cc));
+
+            JsonStringValidator jsAssertStatic = new JsonStringValidator(staticJson);
+            Assert.IsTrue(jsAssertStatic.HasProperty("privateField"));
 
             JsonStringValidator jsAssert = new JsonStringValidator(json);
             Assert.IsFalse(jsAssert.HasProperty("privateField"));
@@ -231,14 +243,24 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
         public void Serialize_NestedArrayNaming()
         {
             TestB tb = new TestB() { IdB = 1 };
-            tb.TestAReferences.Add(new TestA() { IdA = 1 });
+            var tas = new TestA[]
+            {
+                new TestA() { IdA = 1 },
+                new TestA() { IdA = 2 },
+                new TestA() { IdA = 3 },
+                new TestA() { IdA = 4 },
+            };
+            tb.TestAReferences.AddRange(tas);
             ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
             cc.Property(ta => ta.IdA).HasName("id_a");
 
             var json = JsonConvert.SerializeObject(tb, GetSettings(cc));
 
-            JsonStringValidator jsAssert = new JsonStringValidator(json, jt => jt["testAs"].Cast<JArray>().Single());
-            Assert.IsTrue(jsAssert.HasPropertyWithValue("id_a", 1));
+            for (int i = 0; i < tas.Length; i++)
+            {
+                JsonStringValidator jsAssert = new JsonStringValidator(json, jt => jt["testAs"].Cast<JObject>().ElementAt(i));
+                Assert.IsTrue(jsAssert.HasPropertyWithValue("id_a", i + 1));
+            }
         }
         #endregion
     }

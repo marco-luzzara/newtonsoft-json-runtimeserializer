@@ -53,8 +53,7 @@ namespace Newtonsoft.Json.RuntimeSerializer
 
         protected PropertyConfiguration AddOrGetPropertyConfiguration(string propName)
         {
-            PropertyConfiguration pc;
-            if (this.propertiesMapping.TryGetValue(propName, out pc))
+            if (this.propertiesMapping.TryGetValue(propName, out var pc))
                 return pc;
 
             pc = new PropertyConfiguration();

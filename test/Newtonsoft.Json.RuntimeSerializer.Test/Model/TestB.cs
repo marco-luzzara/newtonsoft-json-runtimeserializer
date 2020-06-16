@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Newtonsoft.Json.RuntimeSerializer.Test.Model
 {
-    [DataContract]
+    [JsonObject]
     public class TestB
     {
-        [DataMember(Name = "idB")]
+        [JsonProperty(PropertyName = "idB")]
         public int IdB { get; set; } = 0;
 
-        [DataMember(Name = "testAs")]
+        [JsonProperty(PropertyName = "testAs")]
         public List<TestA> TestAReferences { get; set; } = new List<TestA>();
     }
 }
