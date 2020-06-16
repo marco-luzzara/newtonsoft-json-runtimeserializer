@@ -12,17 +12,17 @@ namespace Newtonsoft.Json.RuntimeSerializer
 {
     public class ContractConfiguration<T> : IContractConfiguration
     {
-        protected Dictionary<string, PropertyConfiguration> propertiesMapping = new Dictionary<string, PropertyConfiguration>();
+        protected Dictionary<MemberInfo, PropertyConfiguration> propertiesMapping = new Dictionary<MemberInfo, PropertyConfiguration>();
 
         public Type ModelType => typeof(T);
 
-        public IDictionary<string, PropertyConfiguration> PropertiesMapping => propertiesMapping.ToDictionary(x => x.Key, x => x.Value);
+        public IDictionary<MemberInfo, PropertyConfiguration> PropertiesMapping => propertiesMapping.ToDictionary(x => x.Key, x => x.Value);
 
         public PropertyConfiguration Property<U>(Expression<Func<T, U>> propExpr)
         {
             var propInfo = PropertyProvider.GetPropertyInfoFromExpr(propExpr);
 
-            return AddOrGetPropertyConfiguration(propInfo.Name);
+            return AddOrGetPropertyConfiguration(propInfo);
         }
 
         public PropertyConfiguration Property(string propName)
@@ -35,7 +35,7 @@ namespace Newtonsoft.Json.RuntimeSerializer
             if (propInfo is null)
                 throw new PropertyNotFoundException(propName);
 
-            return AddOrGetPropertyConfiguration(propInfo.Name);
+            return AddOrGetPropertyConfiguration(propInfo);
         }
 
         public PropertyConfiguration Field(string fieldName)
@@ -48,16 +48,16 @@ namespace Newtonsoft.Json.RuntimeSerializer
             if (fieldInfo is null)
                 throw new FieldNotFoundException(fieldName);
 
-            return AddOrGetPropertyConfiguration(fieldInfo.Name);
+            return AddOrGetPropertyConfiguration(fieldInfo);
         }
 
-        protected PropertyConfiguration AddOrGetPropertyConfiguration(string propName)
+        protected PropertyConfiguration AddOrGetPropertyConfiguration(MemberInfo memberInfo)
         {
-            if (this.propertiesMapping.TryGetValue(propName, out var pc))
+            if (this.propertiesMapping.TryGetValue(memberInfo, out var pc))
                 return pc;
 
             pc = new PropertyConfiguration();
-            this.propertiesMapping.Add(propName, pc);
+            this.propertiesMapping.Add(memberInfo, pc);
 
             return pc;
         }

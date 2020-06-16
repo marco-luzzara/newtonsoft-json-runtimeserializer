@@ -24,7 +24,7 @@ namespace Newtonsoft.Json.RuntimeSerializer
             if (!this.contractConfigurationsDict.TryGetValue(prop.DeclaringType, out var contractConfig))
                 return prop;
 
-            if (!contractConfig.PropertiesMapping.TryGetValue(member.Name, out var propConfig))
+            if (!contractConfig.PropertiesMapping.TryGetValue(member, out var propConfig))
                 return prop;
 
             return ConfigureJsonproperty(prop, propConfig);
@@ -42,6 +42,11 @@ namespace Newtonsoft.Json.RuntimeSerializer
                 prop.PropertyName = propConfig.Name;
 
             return prop;
+        }
+
+        protected override List<MemberInfo> GetSerializableMembers(Type objectType)
+        {
+            return base.GetSerializableMembers(objectType);
         }
     }
 }

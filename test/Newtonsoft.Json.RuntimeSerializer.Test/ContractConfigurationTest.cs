@@ -28,7 +28,21 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
 
             var mapping = cc.PropertiesMapping.First();
 
-            Assert.AreEqual("IdA", mapping.Key);
+            Assert.AreEqual("IdA", mapping.Key.Name);
+            Assert.AreEqual(mappedName, mapping.Value.Name);
+        }
+
+        [TestMethod]
+        public void PropertyFromExpr_ConfigureTwice_OverwriteConfig()
+        {
+            var mappedName = "testok";
+            ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
+            cc.Property(ta => ta.IdA).HasName("before");
+            cc.Property(ta => ta.IdA).HasName(mappedName);
+
+            var mapping = cc.PropertiesMapping.Single();
+
+            Assert.AreEqual("IdA", mapping.Key.Name);
             Assert.AreEqual(mappedName, mapping.Value.Name);
         }
 
@@ -61,7 +75,23 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
 
             var mapping = cc.PropertiesMapping.First();
 
-            Assert.AreEqual(propName, mapping.Key);
+            Assert.AreEqual(propName, mapping.Key.Name);
+            Assert.AreEqual(mappedName, mapping.Value.Name);
+        }
+
+        [DataTestMethod]
+        [DataRow("PrivateProp")]
+        [DataRow("IdA")]
+        public void PropertyFromString_ConfigureTwice_OverwriteConfig(string propName)
+        {
+            var mappedName = "testok";
+            ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
+            cc.Property(propName).HasName("before");
+            cc.Property(propName).HasName(mappedName);
+
+            var mapping = cc.PropertiesMapping.Single();
+
+            Assert.AreEqual(propName, mapping.Key.Name);
             Assert.AreEqual(mappedName, mapping.Value.Name);
         }
 
@@ -93,7 +123,22 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
 
             var mapping = cc.PropertiesMapping.First();
 
-            Assert.AreEqual(fieldName, mapping.Key);
+            Assert.AreEqual(fieldName, mapping.Key.Name);
+            Assert.AreEqual(mappedName, mapping.Value.Name);
+        }
+
+        [TestMethod]
+        public void FieldFromString_ConfigureTwice_OverwriteConfig()
+        {
+            var mappedName = "testok";
+            var fieldName = "privateField";
+            ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
+            cc.Field(fieldName).HasName("before");
+            cc.Field(fieldName).HasName(mappedName);
+
+            var mapping = cc.PropertiesMapping.Single();
+
+            Assert.AreEqual(fieldName, mapping.Key.Name);
             Assert.AreEqual(mappedName, mapping.Value.Name);
         }
     }
