@@ -4,6 +4,7 @@ using Newtonsoft.Json.RuntimeSerializer.Configurations;
 using Newtonsoft.Json.RuntimeSerializer.Test.Model;
 using Newtonsoft.Json.RuntimeSerializer.Test.Utils;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace Newtonsoft.Json.RuntimeSerializer.Test
@@ -19,23 +20,41 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
             };
         }
 
+        class A
+        {
+            [JsonProperty(PropertyName = "idA")]
+            public int IdA { get; set; }
+
+            [JsonProperty(PropertyName = "privateProperty")]
+            private int PrivateProp { get; set; }
+
+            [JsonIgnore]
+            public int IgnoredProperty { get; set; }
+
+            private int unnamedPrivateField;
+        }
+
         [TestMethod]
         [Ignore]
         public void TestMethod()
         {
-            TestB tb = new TestB() { IdB = 2 };
-            TestA ta = new TestA() { IdA = 1, TestBReference = tb };
-            tb.TestAReferences = new List<TestA>() {
-                new TestA() { IdA = 3 },
-                new TestA() { IdA = 6 }
-            };
+            //TestB tb = new TestB() { IdB = 2 };
+            A ta = new A() { IdA = 1 };
+            //tb.TestAReferences = new List<TestA>() {
+            //    new TestA() { IdA = 3 },
+            //    new TestA() { IdA = 6 }
+            //};
 
             //tb.TestAReference.TestBReference = new TestB() { Id = 4 };
             //ta.TestBReference.TestAReference.TestBReference = null;
 
+            ContractConfiguration<A> cc = new ContractConfiguration<A>();
+            cc.Property(ta => ta.IdA).Ignore();
+            cc.Field("unnamedPrivateField").HasName("privateFieldSerialized");
+
             var serializerSettings = new JsonSerializerSettings() 
             {
-                ContractResolver = new RuntimeContractResolver(),
+                ContractResolver = new RuntimeContractResolver(cc),
                 TraceWriter = new ReportingTraceWriter()
             };
 

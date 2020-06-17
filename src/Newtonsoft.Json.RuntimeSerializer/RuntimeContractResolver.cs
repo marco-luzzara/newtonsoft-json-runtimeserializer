@@ -47,12 +47,6 @@ namespace Newtonsoft.Json.RuntimeSerializer
             return prop;
         }
 
-        //protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
-        //{
-        //    var props = base.CreateProperties(type, memberSerialization);
-        //    return props;
-        //}
-
         protected override List<MemberInfo> GetSerializableMembers(Type objectType)
         {
             var members = base.GetSerializableMembers(objectType);
