@@ -5,7 +5,6 @@ using System.Text;
 
 namespace Newtonsoft.Json.RuntimeSerializer.Test.Model
 {
-    [JsonObject]
     public class TestA
     {
         [JsonProperty(PropertyName = "idA")]
@@ -23,21 +22,17 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test.Model
         public int IgnoredProperty { get; set; } = 0;
 
         [JsonIgnore]
-        [JsonProperty]
         private int IgnoredPrivateProperty { get; set; } = 0;
 
         [JsonIgnore]
-        [JsonProperty]
         private int ignoredPrivateField = 0;
 
 
 
         public int UnnamedProperty { get; set; } = 0;
 
-        [JsonProperty]
         private int UnnamedPrivateProp { get; set; } = 0;
 
-        [JsonProperty]
         private int unnamedPrivateField = 0;
 
 

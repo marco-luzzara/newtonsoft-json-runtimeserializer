@@ -224,7 +224,6 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
         }
         #endregion
 
-        #region Nested object
         [TestMethod]
         public void Serialize_NestedObjectNaming()
         {
@@ -262,6 +261,19 @@ namespace Newtonsoft.Json.RuntimeSerializer.Test
                 Assert.IsTrue(jsAssert.HasPropertyWithValue("id_a", i + 1));
             }
         }
-        #endregion
+
+        [DataTestMethod]
+        [DataRow("unnamedPrivateField")]
+        [DataRow("UnnamedPrivateProp")]
+        public void Serialize_DoesNotSerializeSinceNotConfigured(string propName)
+        {
+            TestA ta = new TestA();
+            ContractConfiguration<TestA> cc = new ContractConfiguration<TestA>();
+
+            var json = JsonConvert.SerializeObject(ta, GetSettings(cc));
+
+            JsonStringValidator jsAssert = new JsonStringValidator(json);
+            Assert.IsFalse(jsAssert.HasProperty(propName));
+        }
     }
 }
