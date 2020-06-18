@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/marcoluzzara/Newtonsoft.Json.RuntimeSerializer/_apis/build/status/marco-luzzara.newtonsoft-json-runtimeserializer?branchName=master)](https://dev.azure.com/marcoluzzara/Newtonsoft.Json.RuntimeSerializer/_build/latest?definitionId=1&branchName=master)
+
 # Newtonsoft.Json.RuntimeSerializer
 This library extends the functionalities of the popular [JSON.Net](https://www.newtonsoft.com/json) library: it allows you to change how an object is serialized at runtime.
 
